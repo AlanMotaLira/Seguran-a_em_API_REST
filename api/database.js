@@ -1,4 +1,5 @@
 const sqlite3 = require('sqlite3').verbose();
+
 const db = new sqlite3.Database('db.sqlite');
 
 const POSTS_SCHEMA = `
@@ -29,10 +30,8 @@ db.serialize(() => {
   });
 });
 
-process.on('SIGINT', () =>
-  db.close(() => {
-    process.exit(0);
-  })
-);
+process.on('SIGINT', () => db.close(() => {
+  process.exit(0);
+}));
 
 module.exports = db;

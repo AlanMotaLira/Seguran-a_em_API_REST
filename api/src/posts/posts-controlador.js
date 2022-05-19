@@ -6,7 +6,7 @@ module.exports = {
     try {
       const post = new Post(req.body);
       await post.adiciona();
-      
+
       res.status(201).send(post);
     } catch (erro) {
       if (erro instanceof InvalidArgumentError) {
@@ -24,7 +24,7 @@ module.exports = {
       const posts = await Post.lista();
       res.send(posts);
     } catch (erro) {
-      return res.status(500).json({ erro: erro });
+      return res.status(500).json({ erro });
     }
-  }
+  },
 };

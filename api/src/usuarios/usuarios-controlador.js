@@ -9,7 +9,7 @@ module.exports = {
       const usuario = new Usuario({
         nome,
         email,
-        senha
+        senha,
       });
 
       await usuario.adiciona();
@@ -37,7 +37,7 @@ module.exports = {
       await usuario.deleta();
       res.status(200).send();
     } catch (erro) {
-      res.status(500).json({ erro: erro });
+      res.status(500).json({ erro });
     }
-  }
+  },
 };

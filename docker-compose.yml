@@ -1,6 +1,6 @@
 version: "3.9"
 services:
-  node:
+  api:
     build: 
       dockerfile: dockerfile
       context: .
@@ -16,8 +16,9 @@ services:
     tty: true
     volumes:
       - ./api/:/home/node/app/api
-      - ./package-lock.json:/home/node/app/package-lock.json
       - ./package.json:/home/node/app/package.json
       - ./.eslintrc.json:/home/node/app/.eslintrc.json
-    depends_on:
-      - "mysql"
+      - ./local-db:/home/node/app/db
+networks:
+  rest-api:
+    driver: bridge

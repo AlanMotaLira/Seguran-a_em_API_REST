@@ -1,6 +1,6 @@
 const usuariosControlador = require('./usuarios-controlador');
 
-module.exports = app => {
+module.exports = (app) => {
   app
     .route('/usuario')
     .post(usuariosControlador.adiciona)
