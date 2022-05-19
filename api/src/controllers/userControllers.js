@@ -1,20 +1,20 @@
-const Usuario = require('./usuarios-modelo');
-const { InvalidArgumentError, InternalServerError } = require('../erros');
+const {UserModels} = require('../models');
+const { InvalidArgumentError, InternalServerError } = require('../err/err');
 
 module.exports = {
-  adiciona: async (req, res) => {
+  adds: async (req, res) => {
     const { nome, email, senha } = req.body;
 
     try {
-      const usuario = new Usuario({
+      const use = new UserModels({
         nome,
         email,
         senha,
       });
 
-      await usuario.adiciona();
+      await use.adds();
 
-      res.status(201).json();
+      res.status(201).json({message:'Usuario criado'});
     } catch (erro) {
       if (erro instanceof InvalidArgumentError) {
         res.status(422).json({ erro: erro.message });
@@ -26,15 +26,15 @@ module.exports = {
     }
   },
 
-  lista: async (req, res) => {
-    const usuarios = await Usuario.lista();
-    res.json(usuarios);
+  list: async (__, res) => {
+    const use = await UserModels.list();
+    res.json(use);
   },
 
-  deleta: async (req, res) => {
-    const usuario = await Usuario.buscaPorId(req.params.id);
+  remove: async (req, res) => {
+    const usuario = await UserModels.searchByID(req.params.id);
     try {
-      await usuario.deleta();
+      await usuario.remove();
       res.status(200).send();
     } catch (erro) {
       res.status(500).json({ erro });

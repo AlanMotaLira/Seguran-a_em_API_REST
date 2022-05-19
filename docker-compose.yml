@@ -18,7 +18,7 @@ services:
       - ./api/:/home/node/app/api
       - ./package.json:/home/node/app/package.json
       - ./.eslintrc.json:/home/node/app/.eslintrc.json
-      - ./local-db:/home/node/app/db
+      - ./db.sqlite:/home/node/app/db.sqlite
 networks:
   rest-api:
     driver: bridge

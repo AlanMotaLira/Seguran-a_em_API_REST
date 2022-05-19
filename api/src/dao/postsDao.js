@@ -1,7 +1,7 @@
 const db = require('../../database');
 
 module.exports = {
-  adiciona: (post) => new Promise((resolve, reject) => {
+  adds: (post) => new Promise((resolve, reject) => {
     db.run(
       `
         INSERT INTO posts (
@@ -20,7 +20,7 @@ module.exports = {
     );
   }),
 
-  lista: () => new Promise((resolve, reject) => {
+  list: () => new Promise((resolve, reject) => {
     db.all('SELECT * FROM posts', (erro, resultados) => {
       if (erro) {
         return reject('Erro ao listar os posts!');

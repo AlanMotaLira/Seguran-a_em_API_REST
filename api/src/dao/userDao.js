@@ -1,8 +1,8 @@
 const db = require('../../database');
-const { InternalServerError } = require('../erros');
+const { InternalServerError } = require('../err/err');
 
 module.exports = {
-  adiciona: (usuario) => new Promise((resolve, reject) => {
+  adds: (usuario) => new Promise((resolve, reject) => {
     db.run(
       `
           INSERT INTO usuarios (
@@ -22,7 +22,7 @@ module.exports = {
     );
   }),
 
-  buscaPorId: (id) => new Promise((resolve, reject) => {
+  searchByID: (id) => new Promise((resolve, reject) => {
     db.get(
       `
           SELECT *
@@ -40,7 +40,7 @@ module.exports = {
     );
   }),
 
-  buscaPorEmail: (email) => new Promise((resolve, reject) => {
+  searchByEmail: (email) => new Promise((resolve, reject) => {
     db.get(
       `
           SELECT *
@@ -58,7 +58,7 @@ module.exports = {
     );
   }),
 
-  lista: () => new Promise((resolve, reject) => {
+  list: () => new Promise((resolve, reject) => {
     db.all(
       `
           SELECT * FROM usuarios
@@ -72,7 +72,7 @@ module.exports = {
     );
   }),
 
-  deleta: (usuario) => new Promise((resolve, reject) => {
+  remove: (usuario) => new Promise((resolve, reject) => {
     db.run(
       `
           DELETE FROM usuarios
