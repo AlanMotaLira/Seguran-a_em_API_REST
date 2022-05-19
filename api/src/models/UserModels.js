@@ -1,6 +1,6 @@
-const usuariosDao = require('./usuarios-dao');
-const { InvalidArgumentError } = require('../erros');
-const validacoes = require('../validacoes-comuns');
+const usuariosDao = require('../dao/userDao');
+const { InvalidArgumentError } = require('../err/err');
+const validations = require('../err/commonValidations');
 
 class Usuario {
   constructor(usuario) {
@@ -21,11 +21,11 @@ class Usuario {
   }
 
   valida() {
-    validacoes.campoStringNaoNulo(this.nome, 'nome');
-    validacoes.campoStringNaoNulo(this.email, 'email');
-    validacoes.campoStringNaoNulo(this.senha, 'senha');
-    validacoes.campoTamanhoMinimo(this.senha, 'senha', 8);
-    validacoes.campoTamanhoMaximo(this.senha, 'senha', 64);
+    validations.fieldStringNotNull(this.nome, 'nome');
+    validations.fieldStringNotNull(this.email, 'email');
+    validations.fieldStringNotNull(this.senha, 'senha');
+    validations.fieldSizeMinimum(this.senha, 'senha', 8);
+    validations.fieldMaximumSize(this.senha, 'senha', 64);
   }
 
   async deleta() {

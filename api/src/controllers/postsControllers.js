@@ -1,11 +1,11 @@
-const Post = require('./posts-modelo');
-const { InvalidArgumentError, InternalServerError } = require('../erros');
+const {PostsModels } = require('../models');
+const { InvalidArgumentError, InternalServerError } = require('../err/err');
 
 module.exports = {
   adiciona: async (req, res) => {
     console.log(req.body)
     try {
-      const post = new Post(req.body);
+      const post = new PostsModels(req.body);
       await post.adiciona();
 
       res.status(201).send(post);
