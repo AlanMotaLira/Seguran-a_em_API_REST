@@ -1,4 +1,4 @@
-const usuariosDao = require('../dao/userDao');
+const userDao = require('../dao/userDao');
 const { InvalidArgumentError } = require('../err/err');
 const validations = require('../err/commonValidations');
 
@@ -12,12 +12,12 @@ class Usuario {
     this.valida();
   }
 
-  async adiciona() {
-    if (await Usuario.buscaPorEmail(this.email)) {
+  async adds() {
+    if (await Usuario.searchByEmail(this.email)) {
       throw new InvalidArgumentError('O usuário já existe!');
     }
 
-    return usuariosDao.adiciona(this);
+    return userDao.adds(this);
   }
 
   valida() {
@@ -28,12 +28,12 @@ class Usuario {
     validations.fieldMaximumSize(this.senha, 'senha', 64);
   }
 
-  async deleta() {
-    return usuariosDao.deleta(this);
+  async remove() {
+    return userDao.remove(this);
   }
 
-  static async buscaPorId(id) {
-    const usuario = await usuariosDao.buscaPorId(id);
+  static async searchByID(id) {
+    const usuario = await userDao.searchByID(id);
     if (!usuario) {
       return null;
     }
@@ -41,8 +41,8 @@ class Usuario {
     return new Usuario(usuario);
   }
 
-  static async buscaPorEmail(email) {
-    const usuario = await usuariosDao.buscaPorEmail(email);
+  static async searchByEmail(email) {
+    const usuario = await userDao.searchByEmail(email);
     if (!usuario) {
       return null;
     }
@@ -50,8 +50,8 @@ class Usuario {
     return new Usuario(usuario);
   }
 
-  static lista() {
-    return usuariosDao.lista();
+  static list() {
+    return userDao.list();
   }
 }
 

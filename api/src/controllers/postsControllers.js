@@ -2,11 +2,11 @@ const {PostsModels } = require('../models');
 const { InvalidArgumentError, InternalServerError } = require('../err/err');
 
 module.exports = {
-  adiciona: async (req, res) => {
+  adds: async (req, res) => {
     console.log(req.body)
     try {
       const post = new PostsModels(req.body);
-      await post.adiciona();
+      await post.adds();
 
       res.status(201).send(post);
     } catch (erro) {
@@ -20,12 +20,12 @@ module.exports = {
     }
   },
 
-  lista: async (req, res) => {
+  list: async (__, res) => {
     try {
-      const posts = await Post.lista();
+      const posts = await PostsModels.list();
       res.send(posts);
-    } catch (erro) {
-      return res.status(500).json({ erro });
+    } catch (err) {
+      return res.status(500).json(err.message);
     }
   },
 };

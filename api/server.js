@@ -2,7 +2,7 @@ const app = require('./app');
 const port = process.env.PORT || 3000;
 const db = require('./database');
 
-const routes = require('./rotas');
+const routes = require('./src/routes');
 
 routes(app);
 

@@ -8,8 +8,8 @@ class Post {
     this.valida();
   }
 
-  adiciona() {
-    return postsDao.adiciona(this);
+  adds() {
+    return postsDao.adds(this);
   }
 
   valida() {
@@ -20,8 +20,8 @@ class Post {
     validations.fieldMaximumSize(this.conteudo, 'conteúdo', 140);
   }
 
-  static lista() {
-    return postsDao.lista();
+  static list() {
+    return postsDao.list();
   }
 }
 

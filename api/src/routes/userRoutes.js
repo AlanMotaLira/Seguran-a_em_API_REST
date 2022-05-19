@@ -1,10 +1,10 @@
-const usuariosControlador = require('./usuarios-controlador');
+const {userControllers} = require('../controllers');
 
 module.exports = (app) => {
   app
-    .route('/usuario')
-    .post(usuariosControlador.adiciona)
-    .get(usuariosControlador.lista);
+    .route('/user')
+    .post(userControllers.adds)
+    .get(userControllers.list);
 
-  app.route('/usuario/:id').delete(usuariosControlador.deleta);
+  app.route('/user/:id').delete(userControllers.remove);
 };
