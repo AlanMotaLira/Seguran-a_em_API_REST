@@ -1,0 +1,24 @@
+version: "3.9"
+services:
+  api:
+    build: 
+      dockerfile: dockerfile
+      context: .
+    image: rest-api-security:1.0
+    container_name: rest-security
+    restart: unless-stopped
+    working_dir: /home/node/app/api
+    networks:
+      - rest-api
+    ports:
+      - "3000:3000"
+    stdin_open: true
+    tty: true
+    volumes:
+      - ./api/:/home/node/app/api
+      - ./package.json:/home/node/app/package.json
+      - ./.eslintrc.json:/home/node/app/.eslintrc.json
+      - ./local-db:/home/node/app/db
+networks:
+  rest-api:
+    driver: bridge
