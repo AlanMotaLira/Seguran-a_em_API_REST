@@ -1,5 +1,5 @@
 const db = require('../../database');
-const { InternalServerError } = require('../err/err');
+const { InternalServerError } = require('../err');
 
 module.exports = {
   adds: (usuario) => new Promise((resolve, reject) => {

@@ -1,4 +1,4 @@
-const { InvalidArgumentError } = require('./err');
+const { InvalidArgumentError } = require('../err');
 
 module.exports = {
   fieldStringNotNull: (valor, nome) => {

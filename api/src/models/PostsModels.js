@@ -1,5 +1,5 @@
 const postsDao = require('../dao/postsDao');
-const validations = require('../err/commonValidations');
+const validations = require('../validation/commonValidations');
 
 class Post {
   constructor(post) {

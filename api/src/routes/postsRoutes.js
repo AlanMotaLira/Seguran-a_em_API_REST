@@ -1,4 +1,4 @@
-const {postsControllers} = require('../controllers');
+const { postsControllers } = require('../controllers');
 
 module.exports = (app) => {
   app

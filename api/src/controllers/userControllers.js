@@ -1,5 +1,5 @@
-const {UserModels} = require('../models');
-const { InvalidArgumentError, InternalServerError } = require('../err/err');
+const { UserModels } = require('../models');
+const { InvalidArgumentError, InternalServerError } = require('../err');
 
 module.exports = {
   adds: async (req, res) => {
@@ -14,7 +14,7 @@ module.exports = {
 
       await use.adds();
 
-      res.status(201).json({message:'Usuario criado'});
+      res.status(201).json({ message: 'Usuario criado' });
     } catch (erro) {
       if (erro instanceof InvalidArgumentError) {
         res.status(422).json({ erro: erro.message });

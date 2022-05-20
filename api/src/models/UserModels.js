@@ -1,6 +1,6 @@
 const userDao = require('../dao/userDao');
-const { InvalidArgumentError } = require('../err/err');
-const validations = require('../err/commonValidations');
+const { InvalidArgumentError } = require('../err');
+const validations = require('../validation/commonValidations');
 
 class Usuario {
   constructor(usuario) {

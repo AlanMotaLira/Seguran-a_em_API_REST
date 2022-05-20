@@ -1,4 +1,4 @@
 module.exports = {
-    PostsModels:require('./PostsModels'),
-    UserModels: require('./UserModels')
-}
+  PostsModels: require('./PostsModels'),
+  UserModels: require('./UserModels'),
+};
