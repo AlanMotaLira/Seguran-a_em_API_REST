@@ -24,8 +24,8 @@ db.serialize(() => {
   db.run(POSTS_SCHEMA);
   db.run(USUARIOS_SCHEMA);
 
-  db.each('SELECT * FROM usuarios', (err, usuario) => {
-    console.log(usuario);
+  db.each('SELECT COUNT(id) FROM usuarios', (err, users) => {
+    console.log(`contem ${users['COUNT(id)']} usuários cadastrados`);
   });
 });
 

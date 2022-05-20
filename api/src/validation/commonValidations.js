@@ -20,4 +20,9 @@ module.exports = {
       );
     }
   },
+  verifyUse(use) {
+    if (!use) {
+      throw new InvalidArgumentError("Não existe usuário com o email informado");
+    }
+  }
 };
