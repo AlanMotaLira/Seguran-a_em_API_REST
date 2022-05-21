@@ -22,7 +22,7 @@ module.exports = {
   },
   verifyUse(user) {
     if (!user) {
-      throw new InvalidArgumentError("Não existe usuário com o email informado");
+      throw new InvalidArgumentError('Não existe usuário com o email informado');
     }
-  }
+  },
 };

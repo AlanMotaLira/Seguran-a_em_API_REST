@@ -1,38 +1,47 @@
-const bcrypt = require("bcrypt");
-const { InvalidArgumentError } = require("../err");
-const userDao = require("../dao/userDao");
-const validations = require("../validation/commonValidations");
+const bcrypt = require('bcrypt');
+const { InvalidArgumentError } = require('../err');
+const userDao = require('../dao/userDao');
+const validations = require('../validation/commonValidations');
 
 class User {
   #name;
+
   #email;
+
   #passwordTemp;
+
   #password;
+
   constructor(user) {
     this.id = user.id;
     this.#name = user.name;
     this.#email = user.email;
     this.#passwordTemp = user.password;
-    this.#password;
+    this.#password = '';
   }
+
   get name() {
     return this.#name;
-  }
-  get email() {
-    return this.#email;
-  }
-  get password() {
-    return this.#password;
   }
 
   set name(name) {
     this.validate(name, false, false);
     this.#name = name;
   }
+
+  get email() {
+    return this.#email;
+  }
+
   set email(email) {
     this.validate(false, email, false);
     this.#email = email;
   }
+
+  get password() {
+    return this.#password;
+  }
+
   set password(password) {
     this.validate(false, false, password);
     this.#password = password;
@@ -40,7 +49,7 @@ class User {
 
   async adds() {
     if (await User.searchByEmail(this.email)) {
-      throw new InvalidArgumentError("O usuário já existe!");
+      throw new InvalidArgumentError('O usuário já existe!');
     }
     this.validate(this.name, this.email, this.#passwordTemp);
     await this.passwordHash(this.#passwordTemp);
@@ -90,15 +99,15 @@ class User {
 
   validate(name, email, password) {
     if (name) {
-      validations.fieldStringNotNull(name, "name");
+      validations.fieldStringNotNull(name, 'name');
     }
     if (email) {
-      validations.fieldStringNotNull(email, "email");
+      validations.fieldStringNotNull(email, 'email');
     }
     if (password) {
-      validations.fieldStringNotNull(password, "password");
-      validations.fieldSizeMinimum(password, "password", 8);
-      validations.fieldMaximumSize(password, "password", 64);
+      validations.fieldStringNotNull(password, 'password');
+      validations.fieldSizeMinimum(password, 'password', 8);
+      validations.fieldMaximumSize(password, 'password', 64);
     }
   }
 }

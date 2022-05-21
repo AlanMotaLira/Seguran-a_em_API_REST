@@ -1,4 +1,7 @@
+const InvalidArgumentError = require('./InvalidArgumentError');
+const InternalServerError = require('./InternalServerError');
+
 module.exports = {
-  InvalidArgumentError: require('./InvalidArgumentError'),
-  InternalServerError: require('./InternalServerError'),
+  InvalidArgumentError,
+  InternalServerError,
 };

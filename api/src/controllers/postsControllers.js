@@ -3,7 +3,6 @@ const { InvalidArgumentError, InternalServerError } = require('../err');
 
 module.exports = {
   adds: async (req, res) => {
-    console.log(req.body);
     try {
       const post = new PostsModels(req.body);
       await post.adds();

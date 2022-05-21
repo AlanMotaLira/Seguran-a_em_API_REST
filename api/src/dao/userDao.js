@@ -12,8 +12,8 @@ module.exports = {
           ) VALUES (?, ?, ?)
         `,
       [user.name, user.email, user.password],
-      (erro) => {
-        if (erro) {
+      (err) => {
+        if (err) {
           reject(new InternalServerError('Erro ao adicionar o usuário!'));
         }
 
@@ -30,9 +30,9 @@ module.exports = {
           WHERE id = ?
         `,
       [id],
-      (erro, user) => {
-        if (erro) {
-          return reject('Não foi possível encontrar o usuário!');
+      (err, user) => {
+        if (err) {
+          return reject(new InternalServerError('Não foi possível encontrar o usuário!'));
         }
 
         return resolve(user);
@@ -48,9 +48,9 @@ module.exports = {
           WHERE email = ?
         `,
       [email],
-      (erro, user) => {
-        if (erro) {
-          return reject('Não foi possível encontrar o usuário!');
+      (err, user) => {
+        if (err) {
+          return reject(new InternalServerError('Não foi possível encontrar o usuário!'));
         }
 
         return resolve(user);
@@ -63,9 +63,9 @@ module.exports = {
       `
           SELECT * FROM users
         `,
-      (erro, users) => {
-        if (erro) {
-          return reject('Erro ao listar usuários');
+      (err, users) => {
+        if (err) {
+          return reject(new InternalServerError('Erro ao listar usuários'));
         }
         return resolve(users);
       },
@@ -79,9 +79,9 @@ module.exports = {
           WHERE id = ?
         `,
       [user.id],
-      (erro) => {
-        if (erro) {
-          return reject('Erro ao deletar o usuário');
+      (err) => {
+        if (err) {
+          return reject(new InternalServerError('Erro ao deletar o usuário'));
         }
         return resolve();
       },
