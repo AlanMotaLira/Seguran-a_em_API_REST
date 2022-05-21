@@ -18,6 +18,7 @@ services:
       - ./api/:/home/node/app/api
       - ./package.json:/home/node/app/package.json
       - ./.eslintrc.json:/home/node/app/.eslintrc.json
+      - ./.env:/home/node/app/.env
       - ./dbFilePath.db:/home/node/app/dbFilePath.db
 networks:
   rest-api:

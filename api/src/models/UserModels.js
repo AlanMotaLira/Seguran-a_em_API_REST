@@ -51,8 +51,10 @@ class User {
     if (await User.searchByEmail(this.email)) {
       throw new InvalidArgumentError('O usuário já existe!');
     }
+
     this.validate(this.name, this.email, this.#passwordTemp);
     await this.passwordHash(this.#passwordTemp);
+
     return userDao.adds({
       name: this.name,
       email: this.email,
@@ -109,7 +111,7 @@ class User {
       validations.fieldSizeMinimum(password, 'password', 8);
       validations.fieldMaximumSize(password, 'password', 64);
     }
-  }
+  };
 }
 
 module.exports = User;

@@ -1,8 +1,10 @@
 const express = require('express');
+
 const app = express();
 const bodyParser = require('body-parser');
-const passport = require('passport')
-const authenticationStrategy = require('./src/validation/authenticationStrategy')
+const passport = require('passport');
+// eslint-disable-next-line no-unused-vars
+const authenticationStrategy = require('./src/validation/authenticationStrategy');
 
 app.use(
   bodyParser.urlencoded({
