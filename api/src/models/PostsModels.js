@@ -1,5 +1,5 @@
 const postsDao = require('../dao/postsDao');
-const validations = require('../validation/commonValidations');
+const commonValidations = require('../validation/commonValidations');
 
 class Post {
   constructor(post) {
@@ -13,11 +13,11 @@ class Post {
   }
 
   valida() {
-    validations.fieldStringNotNull(this.titulo, 'título');
-    validations.fieldSizeMinimum(this.titulo, 'título', 5);
+    commonValidations.fieldStringNotNull(this.titulo, 'título');
+    commonValidations.fieldSizeMinimum(this.titulo, 'título', 5);
 
-    validations.fieldStringNotNull(this.conteudo, 'conteúdo');
-    validations.fieldMaximumSize(this.conteudo, 'conteúdo', 140);
+    commonValidations.fieldStringNotNull(this.conteudo, 'conteúdo');
+    commonValidations.fieldMaximumSize(this.conteudo, 'conteúdo', 140);
   }
 
   static list() {

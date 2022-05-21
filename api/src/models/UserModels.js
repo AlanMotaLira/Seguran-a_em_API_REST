@@ -1,7 +1,7 @@
 const bcrypt = require('bcrypt');
 const { InvalidArgumentError } = require('../err');
 const userDao = require('../dao/userDao');
-const validations = require('../validation/commonValidations');
+const commonValidations = require('../validation/commonValidations');
 
 class User {
   #name;
@@ -101,17 +101,17 @@ class User {
 
   validate(name, email, password) {
     if (name) {
-      validations.fieldStringNotNull(name, 'name');
+      commonValidations.fieldStringNotNull(name, 'name');
     }
     if (email) {
-      validations.fieldStringNotNull(email, 'email');
+      commonValidations.fieldStringNotNull(email, 'email');
     }
     if (password) {
-      validations.fieldStringNotNull(password, 'password');
-      validations.fieldSizeMinimum(password, 'password', 8);
-      validations.fieldMaximumSize(password, 'password', 64);
+      commonValidations.fieldStringNotNull(password, 'password');
+      commonValidations.fieldSizeMinimum(password, 'password', 8);
+      commonValidations.fieldMaximumSize(password, 'password', 64);
     }
-  };
+  }
 }
 
 module.exports = User;
