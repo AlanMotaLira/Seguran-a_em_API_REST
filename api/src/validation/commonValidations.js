@@ -1,27 +1,27 @@
 const { InvalidArgumentError } = require('../err');
 
 module.exports = {
-  fieldStringNotNull: (valor, nome) => {
-    if (typeof valor !== 'string' || valor === 0) throw new InvalidArgumentError(`É necessário preencher o campo ${nome}!`);
+  fieldStringNotNull: (valor, name) => {
+    if (typeof valor !== 'string' || valor === 0) throw new InvalidArgumentError(`É necessário preencher o campo ${name}!`);
   },
 
-  fieldSizeMinimum: (valor, nome, minimo) => {
+  fieldSizeMinimum: (valor, name, minimo) => {
     if (valor.length < minimo) {
       throw new InvalidArgumentError(
-        `O campo ${nome} precisa ser maior que ${minimo} caracteres!`,
+        `O campo ${name} precisa ser maior que ${minimo} caracteres!`,
       );
     }
   },
 
-  fieldMaximumSize: (valor, nome, maximo) => {
+  fieldMaximumSize: (valor, name, maximo) => {
     if (valor.length > maximo) {
       throw new InvalidArgumentError(
-        `O campo ${nome} precisa ser menor que ${maximo} caracteres!`,
+        `O campo ${name} precisa ser menor que ${maximo} caracteres!`,
       );
     }
   },
-  verifyUse(use) {
-    if (!use) {
+  verifyUse(user) {
+    if (!user) {
       throw new InvalidArgumentError("Não existe usuário com o email informado");
     }
   }

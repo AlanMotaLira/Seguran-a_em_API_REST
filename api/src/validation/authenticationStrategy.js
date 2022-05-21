@@ -7,13 +7,13 @@ passport.use(
   new LocalStrategy(
     {
       usernameField: "email",
-      passwordField: "senha",
+      passwordField: "password",
       session: false,
     },
-    async (email, senha, done) => {
+    async (email, password, done) => {
       try {
-        const use = await UserModels.searchByEmail(email);
-        commonValidations.verifyUse(use)
+        const user = await UserModels.searchByEmail(email);
+        commonValidations.verifyUse(user)
 
       } catch (err) {
         done(err);

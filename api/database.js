@@ -1,6 +1,6 @@
 const sqlite3 = require('sqlite3').verbose();
 
-const db = new sqlite3.Database('db.sqlite');
+const db = new sqlite3.Database('dbFilePath');
 
 const POSTS_SCHEMA = `
   CREATE TABLE IF NOT EXISTS posts (
@@ -10,21 +10,21 @@ const POSTS_SCHEMA = `
   )
   `;
 
-const USUARIOS_SCHEMA = `
-  CREATE TABLE IF NOT EXISTS usuarios (
+const USERS_SCHEMA = `
+  CREATE TABLE IF NOT EXISTS users (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
-    nome VARCHAR(40) NOT NULL,
+    name VARCHAR(40) NOT NULL,
     email VARCHAR(255) NOT NULL UNIQUE,
-    senha VARCHAR(255) NOT NULL
+    password VARCHAR(255) NOT NULL
   )
   `;
 
 db.serialize(() => {
   db.run('PRAGMA foreign_keys=ON');
   db.run(POSTS_SCHEMA);
-  db.run(USUARIOS_SCHEMA);
+  db.run(USERS_SCHEMA);
 
-  db.each('SELECT COUNT(id) FROM usuarios', (err, users) => {
+  db.each('SELECT COUNT(id) FROM users', (err, users) => {
     console.log(`contem ${users['COUNT(id)']} usuários cadastrados`);
   });
 });

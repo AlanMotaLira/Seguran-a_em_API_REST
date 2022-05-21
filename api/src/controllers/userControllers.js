@@ -3,16 +3,15 @@ const { InvalidArgumentError, InternalServerError } = require('../err');
 
 module.exports = {
   adds: async (req, res) => {
-    const { nome, email, senha } = req.body;
-
+    const { name, email, password } = req.body;
     try {
-      const use = new UserModels({
-        nome,
+      const user = new UserModels({
+        name,
         email,
-        senha,
+        password,
       });
 
-      await use.adds();
+      await user.adds();
 
       res.status(201).json({ message: 'Usuario criado' });
     } catch (erro) {
@@ -27,14 +26,14 @@ module.exports = {
   },
 
   list: async (__, res) => {
-    const use = await UserModels.list();
-    res.json(use);
+    const user = await UserModels.list();
+    res.json(user);
   },
 
   remove: async (req, res) => {
-    const usuario = await UserModels.searchByID(req.params.id);
+    const user = await UserModels.searchByID(req.params.id);
     try {
-      await usuario.remove();
+      await user.remove();
       res.status(200).send();
     } catch (erro) {
       res.status(500).json({ erro });
