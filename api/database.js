@@ -5,8 +5,8 @@ const db = new sqlite3.Database('dbFilePath');
 const POSTS_SCHEMA = `
   CREATE TABLE IF NOT EXISTS posts (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
-    titulo VARCHAR(50) NOT NULL,
-    conteudo VARCHAR(140)
+    title VARCHAR(50) NOT NULL,
+    content VARCHAR(140)
   )
   `;
 

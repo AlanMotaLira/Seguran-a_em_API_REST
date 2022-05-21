@@ -6,11 +6,11 @@ module.exports = {
     db.run(
       `
         INSERT INTO posts (
-          titulo, 
-          conteudo
+          title, 
+          content
         ) VALUES (?, ?)
       `,
-      [post.titulo, post.conteudo],
+      [post.title, post.content],
       (err) => {
         if (err) {
           return reject(new InternalServerError('Erro ao adicionar o post!'));
