@@ -1,18 +1,19 @@
 const db = require('../../database');
+const { InternalServerError } = require('../err');
 
 module.exports = {
   adds: (post) => new Promise((resolve, reject) => {
     db.run(
       `
         INSERT INTO posts (
-          titulo, 
-          conteudo
+          title, 
+          content
         ) VALUES (?, ?)
       `,
-      [post.titulo, post.conteudo],
-      (erro) => {
-        if (erro) {
-          return reject('Erro ao adicionar o post!');
+      [post.title, post.content],
+      (err) => {
+        if (err) {
+          return reject(new InternalServerError('Erro ao adicionar o post!'));
         }
 
         return resolve();
@@ -21,9 +22,9 @@ module.exports = {
   }),
 
   list: () => new Promise((resolve, reject) => {
-    db.all('SELECT * FROM posts', (erro, resultados) => {
-      if (erro) {
-        return reject('Erro ao listar os posts!');
+    db.all('SELECT * FROM posts', (err, resultados) => {
+      if (err) {
+        return reject(new InternalServerError('Erro ao adicionar o post!'));
       }
 
       return resolve(resultados);

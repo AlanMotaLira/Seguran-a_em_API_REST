@@ -1,10 +1,10 @@
 const postsDao = require('../dao/postsDao');
-const validations = require('../err/commonValidations');
+const commonValidations = require('../validation/commonValidations');
 
 class Post {
   constructor(post) {
-    this.titulo = post.titulo;
-    this.conteudo = post.conteudo;
+    this.title = post.title;
+    this.content = post.content;
     this.valida();
   }
 
@@ -13,11 +13,11 @@ class Post {
   }
 
   valida() {
-    validations.fieldStringNotNull(this.titulo, 'título');
-    validations.fieldSizeMinimum(this.titulo, 'título', 5);
+    commonValidations.fieldStringNotNull(this.title, 'título');
+    commonValidations.fieldSizeMinimum(this.title, 'título', 5);
 
-    validations.fieldStringNotNull(this.conteudo, 'conteúdo');
-    validations.fieldMaximumSize(this.conteudo, 'conteúdo', 140);
+    commonValidations.fieldStringNotNull(this.content, 'conteúdo');
+    commonValidations.fieldMaximumSize(this.content, 'conteúdo', 140);
   }
 
   static list() {

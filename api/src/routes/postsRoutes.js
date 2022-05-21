@@ -1,8 +1,9 @@
-const {postsControllers} = require('../controllers');
+const { postsControllers } = require('../controllers');
+const middlewaresAuthentication = require('../middlewares/middlewaresAuthentication');
 
 module.exports = (app) => {
   app
     .route('/post')
     .get(postsControllers.list)
-    .post(postsControllers.adds);
+    .post(middlewaresAuthentication.bearer, postsControllers.adds);
 };

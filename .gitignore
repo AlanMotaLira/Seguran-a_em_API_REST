@@ -1,5 +1,5 @@
 node_modules
 .vscode
-db.sqlite
+dbFilePath.db
 * .sqlite 
 .env

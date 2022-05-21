@@ -1,20 +1,20 @@
-const {UserModels} = require('../models');
-const { InvalidArgumentError, InternalServerError } = require('../err/err');
+const { UserModels } = require('../models');
+const { InvalidArgumentError, InternalServerError } = require('../err');
+const createTokenJWT = require('../token');
 
 module.exports = {
   adds: async (req, res) => {
-    const { nome, email, senha } = req.body;
-
+    const { name, email, password } = req.body;
     try {
-      const use = new UserModels({
-        nome,
+      const user = new UserModels({
+        name,
         email,
-        senha,
+        password,
       });
 
-      await use.adds();
+      await user.adds();
 
-      res.status(201).json({message:'Usuario criado'});
+      res.status(201).json({ message: 'Usuario criado' });
     } catch (erro) {
       if (erro instanceof InvalidArgumentError) {
         res.status(422).json({ erro: erro.message });
@@ -26,18 +26,22 @@ module.exports = {
     }
   },
 
-  list: async (__, res) => {
-    const use = await UserModels.list();
-    res.json(use);
+  login: async (req, res) => {
+    const token = createTokenJWT(req.user);
+    res.set('authorization', token).status(204).json({ message: 'Usuario criado' });
   },
 
+  list: async (__, res) => {
+    const user = await UserModels.list();
+    res.status(200).json(user);
+  },
   remove: async (req, res) => {
-    const usuario = await UserModels.searchByID(req.params.id);
+    const user = await UserModels.searchByID(req.params.id);
     try {
-      await usuario.remove();
-      res.status(200).send();
-    } catch (erro) {
-      res.status(500).json({ erro });
+      await user.remove();
+      res.status(200).json();
+    } catch (err) {
+      res.status(500).json({ err });
     }
   },
 };

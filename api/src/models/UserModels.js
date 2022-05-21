@@ -1,31 +1,71 @@
+const bcrypt = require('bcrypt');
+const { InvalidArgumentError } = require('../err');
 const userDao = require('../dao/userDao');
-const { InvalidArgumentError } = require('../err/err');
-const validations = require('../err/commonValidations');
+const commonValidations = require('../validation/commonValidations');
 
-class Usuario {
-  constructor(usuario) {
-    this.id = usuario.id;
-    this.nome = usuario.nome;
-    this.email = usuario.email;
-    this.senha = usuario.senha;
+class User {
+  #name;
 
-    this.valida();
+  #email;
+
+  #passwordTemp;
+
+  #password;
+
+  constructor(user) {
+    this.id = user.id;
+    this.#name = user.name;
+    this.#email = user.email;
+    this.#passwordTemp = user.password;
+    this.#password = user.password;
+  }
+
+  get name() {
+    return this.#name;
+  }
+
+  set name(name) {
+    this.validate(name, false, false);
+    this.#name = name;
+  }
+
+  get email() {
+    return this.#email;
+  }
+
+  set email(email) {
+    this.validate(false, email, false);
+    this.#email = email;
+  }
+
+  get password() {
+    return this.#password;
+  }
+
+  set password(password) {
+    this.validate(false, false, password);
+    this.#password = password;
   }
 
   async adds() {
-    if (await Usuario.searchByEmail(this.email)) {
+    if (await User.searchByEmail(this.email)) {
       throw new InvalidArgumentError('O usuário já existe!');
     }
 
-    return userDao.adds(this);
+    this.validate(this.name, this.email, this.#passwordTemp);
+    await this.passwordHash(this.#passwordTemp);
+
+    return userDao.adds({
+      name: this.name,
+      email: this.email,
+      password: this.password,
+    });
   }
 
-  valida() {
-    validations.fieldStringNotNull(this.nome, 'nome');
-    validations.fieldStringNotNull(this.email, 'email');
-    validations.fieldStringNotNull(this.senha, 'senha');
-    validations.fieldSizeMinimum(this.senha, 'senha', 8);
-    validations.fieldMaximumSize(this.senha, 'senha', 64);
+  async passwordHash(password) {
+    await User.generatePasswordHash(password).then((item) => {
+      this.password = item;
+    });
   }
 
   async remove() {
@@ -33,26 +73,45 @@ class Usuario {
   }
 
   static async searchByID(id) {
-    const usuario = await userDao.searchByID(id);
-    if (!usuario) {
+    const user = await userDao.searchByID(id);
+    if (!user) {
       return null;
     }
 
-    return new Usuario(usuario);
+    return new User(user);
   }
 
   static async searchByEmail(email) {
-    const usuario = await userDao.searchByEmail(email);
-    if (!usuario) {
+    const user = await userDao.searchByEmail(email);
+    if (!user) {
       return null;
     }
 
-    return new Usuario(usuario);
+    return new User(user);
   }
 
   static list() {
     return userDao.list();
   }
+
+  static generatePasswordHash(password) {
+    const cHash = 12;
+    return bcrypt.hash(password, cHash);
+  }
+
+  validate(name, email, password) {
+    if (name) {
+      commonValidations.fieldStringNotNull(name, 'name');
+    }
+    if (email) {
+      commonValidations.fieldStringNotNull(email, 'email');
+    }
+    if (password) {
+      commonValidations.fieldStringNotNull(password, 'password');
+      commonValidations.fieldSizeMinimum(password, 'password', 8);
+      commonValidations.fieldMaximumSize(password, 'password', 64);
+    }
+  }
 }
 
-module.exports = Usuario;
+module.exports = User;
