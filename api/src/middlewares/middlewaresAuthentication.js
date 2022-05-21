@@ -16,7 +16,7 @@ module.exports = {
       return next();
     })(req, res, next);
   },
-  bearer:(req, res, next) => {
+  bearer: (req, res, next) => {
     passport.authenticate('bearer', { session: false }, (err, user, info) => {
       if (err && err.name === 'JsonWebTokenError') {
         return res.status(401).json({ erro: err.message });

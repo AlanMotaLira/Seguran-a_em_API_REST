@@ -1,5 +1,5 @@
 const { postsControllers } = require('../controllers');
-const  middlewaresAuthentication  = require('../middlewares/middlewaresAuthentication');
+const middlewaresAuthentication = require('../middlewares/middlewaresAuthentication');
 
 module.exports = (app) => {
   app
