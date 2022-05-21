@@ -1,5 +1,7 @@
-const { UserModels } = require('../models');
-const { InvalidArgumentError, InternalServerError } = require('../err');
+const { UserModels } = require("../models");
+const { InvalidArgumentError, InternalServerError } = require("../err");
+const createTokenJWT = require('../token')
+
 
 module.exports = {
   adds: async (req, res) => {
@@ -13,7 +15,7 @@ module.exports = {
 
       await user.adds();
 
-      res.status(201).json({ message: 'Usuario criado' });
+      res.status(201).json({ message: "Usuario criado" });
     } catch (erro) {
       if (erro instanceof InvalidArgumentError) {
         res.status(422).json({ erro: erro.message });
@@ -26,7 +28,8 @@ module.exports = {
   },
 
   login: async (req, res) => {
-    res.status(204).json({ message: 'Usuario criado' });
+    const token = createTokenJWT(req.user)
+    res.set('authorization',token).status(204).json({ message: "Usuario criado" });
   },
 
   list: async (__, res) => {
@@ -34,10 +37,10 @@ module.exports = {
     res.status(200).json(user);
   },
 
-  pegaId: async(req,res)=>{
-    const {id} = req.params
-    const user = await UserModels.searchByEmail(id)
-    res.json({name:user.name,email:user.email,senha:user.password})
+  pegaId: async (req, res) => {
+    const { id } = req.params;
+    const user = await UserModels.searchByEmail(id);
+    res.json({ name: user.name, email: user.email, senha: user.password });
   },
 
   remove: async (req, res) => {
@@ -50,3 +53,4 @@ module.exports = {
     }
   },
 };
+
