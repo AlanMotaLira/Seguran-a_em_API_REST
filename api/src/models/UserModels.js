@@ -17,7 +17,7 @@ class User {
     this.#name = user.name;
     this.#email = user.email;
     this.#passwordTemp = user.password;
-    this.#password = '';
+    this.#password = user.password;
   }
 
   get name() {

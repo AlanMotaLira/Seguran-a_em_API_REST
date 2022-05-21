@@ -7,7 +7,7 @@ module.exports = {
       const post = new PostsModels(req.body);
       await post.adds();
 
-      res.status(201).send(post);
+      res.status(201).json(post);
     } catch (erro) {
       if (erro instanceof InvalidArgumentError) {
         res.status(422).json({ erro: erro.message });
@@ -22,7 +22,7 @@ module.exports = {
   list: async (__, res) => {
     try {
       const posts = await PostsModels.list();
-      return res.status(200).send(posts);
+      return res.status(200).json(posts);
     } catch (err) {
       return res.status(500).json(err.message);
     }

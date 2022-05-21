@@ -25,18 +25,28 @@ module.exports = {
     }
   },
 
+  login: async (req, res) => {
+    res.status(204).json({ message: 'Usuario criado' });
+  },
+
   list: async (__, res) => {
     const user = await UserModels.list();
-    res.json(user);
+    res.status(200).json(user);
+  },
+
+  pegaId: async(req,res)=>{
+    const {id} = req.params
+    const user = await UserModels.searchByEmail(id)
+    res.json({name:user.name,email:user.email,senha:user.password})
   },
 
   remove: async (req, res) => {
     const user = await UserModels.searchByID(req.params.id);
     try {
       await user.remove();
-      res.status(200).send();
-    } catch (erro) {
-      res.status(500).json({ erro });
+      res.status(200).json();
+    } catch (err) {
+      res.status(500).json({ err });
     }
   },
 };
