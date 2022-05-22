@@ -16,7 +16,7 @@ services:
       - ./api/:/home/node/app/api
       - ./package.json:/home/node/app/package.json
       - ./.eslintrc.json:/home/node/app/.eslintrc.json
-      - db:/home/node/app/dbFilePath.db
+      - db:/home/node/app/dbFilePath.db.sqlite
     env_file:
       - .env
     depends_on:
