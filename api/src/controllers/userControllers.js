@@ -1,7 +1,7 @@
-const { UserModels } = require("../models");
-const { InvalidArgumentError, InternalServerError } = require("../err");
-const createTokenJWT = require("../token");
-const blacklist = require("../../redis/manipulateBlacklist");
+const { UserModels } = require('../models');
+const { InvalidArgumentError, InternalServerError } = require('../err');
+const createTokenJWT = require('../token');
+const blacklist = require('../../redis/manipulateBlacklist');
 
 module.exports = {
   adds: async (req, res) => {
@@ -15,7 +15,7 @@ module.exports = {
 
       await user.adds();
 
-      res.status(201).json({ message: "Usuario criado" });
+      res.status(201).json({ message: 'Usuario criado' });
     } catch (erro) {
       if (erro instanceof InvalidArgumentError) {
         res.status(422).json({ erro: erro.message });
@@ -30,14 +30,14 @@ module.exports = {
   login: async (req, res) => {
     const token = createTokenJWT(req.user);
     res
-      .set("authorization", token)
+      .set('authorization', token)
       .status(204)
-      .json({ message: "Usuario criado" });
+      .json({ message: 'Usuario criado' });
   },
 
   logout: async (req, res) => {
     try {
-      const token = req.token;
+      const { token } = req;
       await blacklist.adds(token);
       res.status(204).send();
     } catch (err) {

@@ -8,8 +8,6 @@ services:
     container_name: rest-security
     restart: unless-stopped
     working_dir: /home/node/app/api
-    networks:
-      - rest-api
     ports:
       - "3000:3000"
     stdin_open: true
@@ -18,8 +16,15 @@ services:
       - ./api/:/home/node/app/api
       - ./package.json:/home/node/app/package.json
       - ./.eslintrc.json:/home/node/app/.eslintrc.json
-      - ./.env:/home/node/app/.env
-      - ./dbFilePath.db:/home/node/app/dbFilePath.db
-networks:
-  rest-api:
-    driver: bridge
+      - db:/home/node/app/dbFilePath.db
+    env_file:
+      - .env
+    depends_on:
+      - "redis"
+  redis:
+    image: redis:7.0.0-alpine
+    volumes: 
+      - cache:/data
+volumes:
+  db:
+  cache:

@@ -8,7 +8,7 @@ module.exports = passport.use(
     try {
       const payload = jwt.verify(token, process.env.SECRET_KEY);
       const user = await UserModels.searchByID(payload.id);
-      done(null, user,{token:token});
+      done(null, user, { token });
     } catch (err) {
       done(err);
     }
