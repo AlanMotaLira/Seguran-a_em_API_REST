@@ -14,9 +14,10 @@ services:
     tty: true
     volumes:
       - ./api/:/home/node/app/api
+      - ./test/:/home/node/app/test
       - ./package.json:/home/node/app/package.json
       - ./.eslintrc.json:/home/node/app/.eslintrc.json
-      - db:/home/node/app/dbFilePath.db.sqlite
+      - dbFilePath.db.sqlite:/home/node/app/dbFilePath.db.sqlite
     env_file:
       - .env
     depends_on:
@@ -26,5 +27,5 @@ services:
     volumes: 
       - cache:/data
 volumes:
-  db:
+  dbFilePath.db.sqlite:
   cache:
