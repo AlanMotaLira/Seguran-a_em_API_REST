@@ -5,7 +5,7 @@ function createTokenJWT(user) {
     id: user.id,
     email: user.email,
   };
-  const token = jwd.sign(payload, process.env.SECRET_KEY);
+  const token = jwd.sign(payload, process.env.SECRET_KEY, { expiresIn: '15m' });
   return token;
 }
 module.exports = createTokenJWT;
