@@ -72,6 +72,20 @@ class User {
     return userDao.remove(this);
   }
 
+  validate(name, email, password) {
+    if (name) {
+      commonValidations.fieldStringNotNull(name, 'name');
+    }
+    if (email) {
+      commonValidations.fieldStringNotNull(email, 'email');
+    }
+    if (password) {
+      commonValidations.fieldStringNotNull(password, 'password');
+      commonValidations.fieldSizeMinimum(password, 'password', 8);
+      commonValidations.fieldMaximumSize(password, 'password', 64);
+    }
+  }
+
   static async searchByID(id) {
     const user = await userDao.searchByID(id);
     if (!user) {
@@ -97,20 +111,6 @@ class User {
   static generatePasswordHash(password) {
     const cHash = 12;
     return bcrypt.hash(password, cHash);
-  }
-
-  validate(name, email, password) {
-    if (name) {
-      commonValidations.fieldStringNotNull(name, 'name');
-    }
-    if (email) {
-      commonValidations.fieldStringNotNull(email, 'email');
-    }
-    if (password) {
-      commonValidations.fieldStringNotNull(password, 'password');
-      commonValidations.fieldSizeMinimum(password, 'password', 8);
-      commonValidations.fieldMaximumSize(password, 'password', 64);
-    }
   }
 }
 
