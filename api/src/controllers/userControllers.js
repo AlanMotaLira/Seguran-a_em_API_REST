@@ -1,7 +1,7 @@
 const { UserModels } = require('../models');
 const { InvalidArgumentError, InternalServerError } = require('../err');
 const { access, refresh } = require('../token');
-
+const sendEmail = require('../email')
 module.exports = {
   async adds(req, res) {
     const { name, email, password } = req.body;
@@ -13,6 +13,7 @@ module.exports = {
       });
 
       await user.adds();
+      sendEmail(user).catch(console.log)
 
       res.status(201).json({ message: 'Usuario criado' });
     } catch (erro) {
