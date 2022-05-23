@@ -24,6 +24,10 @@ async function verifyTokenJwt(token, blocklist) {
   return jwt.verify(token, process.env.SECRET_KEY);
 }
 
+async function invalidTokenJwt(token, blocklist) {
+  await blocklist.adds(token);
+}
+
 async function createOpaqueToken(user, [time, measurement], allowlist) {
   const opaqueToken = crypto.randomBytes(24).toString('hex');
   const dataEnd = moment().add(time, measurement).unix();
@@ -55,6 +59,9 @@ module.exports = {
     },
     verify(token) {
       return verifyTokenJwt(token, this.list);
+    },
+    invalid(token) {
+      return invalidTokenJwt(token, this.list);
     },
   },
   refresh: {
