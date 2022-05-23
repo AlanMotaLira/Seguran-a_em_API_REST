@@ -1,9 +1,9 @@
 const passport = require('passport');
-const {UserModels} = require('../models')
-const commonValidations = require("../validation/commonValidations")
+const { UserModels } = require('../models');
+const { refresh } = require('../token');
 
 module.exports = {
-  local(req, res, next){
+  local(req, res, next) {
     passport.authenticate('local', { session: false }, (err, user) => {
       if (err && err.name === 'InvalidArgumentError') {
         return res.status(401).json({ erro: err.message });
@@ -18,7 +18,7 @@ module.exports = {
       return next();
     })(req, res, next);
   },
-  bearer(req, res, next){
+  bearer(req, res, next) {
     passport.authenticate('bearer', { session: false }, (err, user, info) => {
       if (err && err.name === 'JsonWebTokenError') {
         return res.status(401).json({ erro: err.message });
@@ -37,18 +37,18 @@ module.exports = {
       return next();
     })(req, res, next);
   },
-  async refresh(req,res,next){
-    try{
-      const {refreshToken} = req.body
-      const id = await commonValidations.checkRefreshToken(refreshToken)
-      await commonValidations.invalidRefreshToken(refreshToken)
-      req.user = await UserModels.searchByID(id)
-      return next()
-    }catch(err){
-      if(err.name ==='InvalidArgumentError'){
-        return res.status(401).json(err.message)
+  async refresh(req, res, next) {
+    try {
+      const { refreshToken } = req.body;
+      const id = await refresh.verify(refreshToken);
+      await refresh.invalid(refreshToken);
+      req.user = await UserModels.searchByID(id);
+      return next();
+    } catch (err) {
+      if (err.name === 'InvalidArgumentError') {
+        return res.status(401).json(err.message);
       }
-      return res.status(500).json(err.message)
+      return res.status(500).json(err.message);
     }
-  }
+  },
 };

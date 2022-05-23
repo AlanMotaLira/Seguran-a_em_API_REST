@@ -1,7 +1,7 @@
 const { promisifyAll } = require('bluebird');
 
 module.exports = (list) => {
-  const listAsync = promisifyAll(list)
+  const listAsync = promisifyAll(list);
   return {
     async adds(key, value, dataEnd) {
       await listAsync.set(key, value);
