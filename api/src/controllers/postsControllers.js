@@ -1,8 +1,8 @@
-const { PostsModels } = require('../models');
-const { InvalidArgumentError, InternalServerError } = require('../err');
+const { PostsModels } = require("../models");
+const { InvalidArgumentError, InternalServerError } = require("../err");
 
 module.exports = {
-  adds: async (req, res) => {
+  async adds(req, res) {
     try {
       const post = new PostsModels(req.body);
       await post.adds();
@@ -19,7 +19,7 @@ module.exports = {
     }
   },
 
-  list: async (__, res) => {
+  async list(__, res) {
     try {
       const posts = await PostsModels.list();
       return res.status(200).json(posts);

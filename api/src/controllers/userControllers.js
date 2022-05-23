@@ -4,7 +4,7 @@ const createTokenJWT = require('../token');
 const blacklist = require('../../redis/manipulateBlacklist');
 
 module.exports = {
-  adds: async (req, res) => {
+  async adds(req, res){
     const { name, email, password } = req.body;
     try {
       const user = new UserModels({
@@ -27,15 +27,20 @@ module.exports = {
     }
   },
 
-  login: async (req, res) => {
-    const token = createTokenJWT(req.user);
-    res
-      .set('authorization', token)
-      .status(204)
-      .json({ message: 'Usuario criado' });
+  async login(req, res){
+    try{
+      const token = createTokenJWT(req.user);
+      res
+        .set('authorization', token)
+        .status(204)
+        .json({ message: 'Usuario criado' });
+    }catch(err){
+      res.status(500).json({erro:err.message})
+    }
+
   },
 
-  logout: async (req, res) => {
+  async logout(req, res){
     try {
       const { token } = req;
       await blacklist.adds(token);
@@ -45,11 +50,11 @@ module.exports = {
     }
   },
 
-  list: async (__, res) => {
+  async list(__, res){
     const user = await UserModels.list();
     res.status(200).json(user);
   },
-  remove: async (req, res) => {
+  async remove(req, res){
     const user = await UserModels.searchByID(req.params.id);
     try {
       await user.remove();
