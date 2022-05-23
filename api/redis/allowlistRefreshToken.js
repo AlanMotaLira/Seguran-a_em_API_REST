@@ -1,8 +1,8 @@
-const { createClient } = require("redis");
-const manipulateList = require("./manipulateList");
+const { createClient } = require('redis');
+const manipulateList = require('./manipulateList');
 
 const allowlist = createClient({
-  url: "redis://redis:6379",
+  url: 'redis://redis:6379',
 });
 // allowlist.subscribe("OpaqueToken:");
 (async () => {

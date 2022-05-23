@@ -33,8 +33,8 @@ module.exports = {
       const refreshToken = await refresh.create(req.user);
       console.log(refreshToken);
       res.set('authorization', accesstoken)
-        .status(200)
-        res.json(refreshToken);
+        .status(200);
+      res.json(refreshToken);
     } catch (err) {
       res.status(500).json({ erro: err.message });
     }

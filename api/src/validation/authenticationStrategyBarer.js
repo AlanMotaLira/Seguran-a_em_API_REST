@@ -1,14 +1,12 @@
 const passport = require('passport');
 const BearerStrategy = require('passport-http-bearer').Strategy;
-const jwt = require('jsonwebtoken');
-const commonValidations = require('./commonValidations');
 const { UserModels } = require('../models');
+const { access } = require('../token');
 
 module.exports = passport.use(
   new BearerStrategy(async (token, done) => {
     try {
-      await commonValidations.verifyToken(token);
-      const payload = jwt.verify(token, process.env.SECRET_KEY);
+      const payload = await access.verify(token);
       const user = await UserModels.searchByID(payload.id);
       done(null, user, { token });
     } catch (err) {
