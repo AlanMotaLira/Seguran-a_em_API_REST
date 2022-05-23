@@ -19,7 +19,7 @@ module.exports = {
   },
   async searchByID(id) {
     try {
-      await dbGet(`SELECT * FROM users WHERE id = ? `, [id]);
+      return await dbGet(`SELECT * FROM users WHERE id = ? `, [id]);
     } catch (err) {
       throw new InternalServerError("Não foi possível encontrar o usuário!");
     }
@@ -27,7 +27,7 @@ module.exports = {
 
   async searchByEmail(email){
     try{
-      await dbGet(
+      return await dbGet(
         `SELECT * FROM users WHERE email = ?`,
       [email],
       )
@@ -38,7 +38,7 @@ module.exports = {
   },
   async list(){
     try{
-      await dbAll(`SELECT * FROM users`,)
+      return await dbAll(`SELECT * FROM users`,)
     }catch(err){
       throw new InternalServerError("Erro ao listar usuários")
     }
