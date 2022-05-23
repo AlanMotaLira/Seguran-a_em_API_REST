@@ -1,10 +1,10 @@
 const { UserModels } = require('../models');
 const { InvalidArgumentError, InternalServerError } = require('../err');
-const {createTokenJWT,createOpaqueToken} = require('../token');
+const { createTokenJWT, createOpaqueToken } = require('../token');
 const blacklist = require('../../redis/manipulateBlacklist');
 
 module.exports = {
-  async adds(req, res){
+  async adds(req, res) {
     const { name, email, password } = req.body;
     try {
       const user = new UserModels({
@@ -27,21 +27,20 @@ module.exports = {
     }
   },
 
-  async login(req, res){
-    try{
+  async login(req, res) {
+    try {
       const accesstoken = createTokenJWT(req.user);
-      const refreshToken = createOpaqueToken(req.user)
-      console.log(refreshToken)
+      const refreshToken = createOpaqueToken(req.user);
+      console.log(refreshToken);
       res.set('authorization', accesstoken)
         .status(204)
-        .json({refreshToken});
-    }catch(err){
-      res.status(500).json({erro:err.message})
+        .json({ refreshToken });
+    } catch (err) {
+      res.status(500).json({ erro: err.message });
     }
-
   },
 
-  async logout(req, res){
+  async logout(req, res) {
     try {
       const { token } = req;
       await blacklist.adds(token);
@@ -51,11 +50,11 @@ module.exports = {
     }
   },
 
-  async list(__, res){
+  async list(__, res) {
     const user = await UserModels.list();
     res.status(200).json(user);
   },
-  async remove(req, res){
+  async remove(req, res) {
     const user = await UserModels.searchByID(req.params.id);
     try {
       await user.remove();
