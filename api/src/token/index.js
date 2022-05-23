@@ -1,6 +1,7 @@
 const jwd = require('jsonwebtoken');
 const crypto = require('crypto')
 const moment = require('moment')
+const allowlist = require('../../redis/allowlistRefreshToken')
 
 module.exports = {
   createTokenJWT(user) {
@@ -11,9 +12,10 @@ module.exports = {
     const token = jwd.sign(payload, process.env.SECRET_KEY, { expiresIn: '15m' });
     return token;
   },
-  createOpaqueToken(user){
+  async createOpaqueToken(user){
     const opaqueToken = crypto.randomBytes(24).toString('hex')
     const dataEnd = moment().add(3,'d').unix()
+    await allowlist.adds(opaqueToken,user.id,dataEnd)
     return opaqueToken
   }
 }

@@ -1,7 +1,7 @@
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const { InvalidArgumentError } = require('../err');
-const blacklist = require('../../redis/manipulateBlacklist');
+const blocklist = require('../../redis/manipulateBlocklist');
 
 module.exports = {
   fieldStringNotNull: (valor, name) => {
@@ -39,7 +39,7 @@ module.exports = {
     }
   },
   async verifyToken(token) {
-    const verifToken = await blacklist.InvalidToken(token);
+    const verifToken = await blocklist.InvalidToken(token);
     if (verifToken) {
       throw new jwt.JsonWebTokenError('token inválido por logout');
     }

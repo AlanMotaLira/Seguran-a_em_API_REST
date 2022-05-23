@@ -35,8 +35,8 @@ A API esta organizada e estruturada da seguinte forma:
     |   ├── database.js
     |   ├── server.js
     |   ├── redis
-    |   |  ├── blacklist.js
-    |   |  ├── manipulateBlacklist.js
+    |   |  ├── blocklistAccessToken.js
+    |   |  ├── manipulateBlocklist.js
     |   ├── src
     |   |  ├── controllers
     |   |  |  ├── index.js

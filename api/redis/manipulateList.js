@@ -1,26 +1,23 @@
-const { promisify } = require("util");
+const { promisifyAll } = require('bluebird');
 
 module.exports = (list) => {
-  const setAsync = promisify(list.set).bind(list);
-  const getAsync = promisify(list.get).bind(list);
-  const delAsync = promisify(list.del).bind(list);
-  const existsAsync = promisify(list.exists).bind(list);
+  const listAsync = promisifyAll(list)
   return {
     async adds(key, value, dataEnd) {
-      await setAsync(key, value);
-      list.expireat(key, dataEnd);
+      await listAsync.set(key, value);
+      list.expire(key, dataEnd);
     },
     async fetchValue(key) {
-      return getAsync(key);
+      return listAsync.get(key);
     },
 
     async verifyKey(key) {
-      const response = await existsAsync(key);
+      const response = await listAsync.exists(key);
       return response === 1;
     },
 
     async delete(key) {
-      await delAsync(key);
+      await listAsync.del(key);
     },
   };
 };

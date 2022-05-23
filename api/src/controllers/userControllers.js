@@ -1,7 +1,7 @@
 const { UserModels } = require('../models');
 const { InvalidArgumentError, InternalServerError } = require('../err');
 const { createTokenJWT, createOpaqueToken } = require('../token');
-const blacklist = require('../../redis/manipulateBlacklist');
+const blocklist = require('../../redis/manipulateBlocklist');
 
 module.exports = {
   async adds(req, res) {
@@ -30,11 +30,11 @@ module.exports = {
   async login(req, res) {
     try {
       const accesstoken = createTokenJWT(req.user);
-      const refreshToken = createOpaqueToken(req.user);
+      const refreshToken = await createOpaqueToken(req.user);
       console.log(refreshToken);
       res.set('authorization', accesstoken)
-        .status(204)
-        .json({ refreshToken });
+        .status(200)
+        res.json(refreshToken);
     } catch (err) {
       res.status(500).json({ erro: err.message });
     }
@@ -43,7 +43,7 @@ module.exports = {
   async logout(req, res) {
     try {
       const { token } = req;
-      await blacklist.adds(token);
+      await blocklist.adds(token);
       res.status(204).send();
     } catch (err) {
       res.status(500).json({ erro: err.message });
