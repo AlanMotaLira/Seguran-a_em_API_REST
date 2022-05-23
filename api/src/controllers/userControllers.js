@@ -1,6 +1,6 @@
 const { UserModels } = require('../models');
 const { InvalidArgumentError, InternalServerError } = require('../err');
-const createTokenJWT = require('../token');
+const {createTokenJWT,createOpaqueToken} = require('../token');
 const blacklist = require('../../redis/manipulateBlacklist');
 
 module.exports = {
@@ -29,11 +29,12 @@ module.exports = {
 
   async login(req, res){
     try{
-      const token = createTokenJWT(req.user);
-      res
-        .set('authorization', token)
+      const accesstoken = createTokenJWT(req.user);
+      const refreshToken = createOpaqueToken(req.user)
+      console.log(refreshToken)
+      res.set('authorization', accesstoken)
         .status(204)
-        .json({ message: 'Usuario criado' });
+        .json({refreshToken});
     }catch(err){
       res.status(500).json({erro:err.message})
     }
