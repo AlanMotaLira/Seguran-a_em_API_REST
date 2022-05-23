@@ -1,33 +1,27 @@
 const db = require('../../database');
 const { InternalServerError } = require('../err');
+const { promisify } = require("util");
+
+const dbRun = promisify(db.run).bind(db);
+const dbAll = promisify(db.all).bind(db);
 
 module.exports = {
-  adds: (post) => new Promise((resolve, reject) => {
-    db.run(
-      `
-        INSERT INTO posts (
-          title, 
-          content
-        ) VALUES (?, ?)
-      `,
+  async adds(post){
+    try{
+      await dbRun(`INSERT INTO posts (title,content) VALUES (?, ?)`,
       [post.title, post.content],
-      (err) => {
-        if (err) {
-          return reject(new InternalServerError('Erro ao adicionar o post!'));
-        }
+      )
 
-        return resolve();
-      },
-    );
-  }),
+    }catch (err){
+      throw new InternalServerError('Erro ao adicionar o post!')
+    }
+  },
 
-  list: () => new Promise((resolve, reject) => {
-    db.all('SELECT * FROM posts', (err, resultados) => {
-      if (err) {
-        return reject(new InternalServerError('Erro ao adicionar o post!'));
-      }
-
-      return resolve(resultados);
-    });
-  }),
+  async list(){
+    try{
+      return await dbAll('SELECT * FROM posts',)
+    }catch(err){
+      throw new InternalServerError('Erro ao buscar posts!')
+    }
+  }
 };
