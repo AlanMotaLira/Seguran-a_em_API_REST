@@ -5,12 +5,10 @@ const commonValidations = require("../validation/commonValidations");
 
 class User {
   #name;
-
   #email;
-
   #passwordTemp;
-
   #password;
+  #emailVerified;
 
   constructor(user) {
     this.id = user.id;
@@ -18,12 +16,12 @@ class User {
     this.#email = user.email;
     this.#passwordTemp = user.password;
     this.#password = user.password;
+    this.#emailVerified = user.emailVerified;
   }
 
   get name() {
     return this.#name;
   }
-
   set name(name) {
     this.validate(name, false, false);
     this.#name = name;
@@ -32,7 +30,6 @@ class User {
   get email() {
     return this.#email;
   }
-
   set email(email) {
     this.validate(false, email, false);
     this.#email = email;
@@ -41,10 +38,16 @@ class User {
   get password() {
     return this.#password;
   }
-
   set password(password) {
     this.validate(false, false, password);
     this.#password = password;
+  }
+
+  get emailVerified() {
+    return this.#emailVerified;
+  }
+  set emailVerified(emailVerified) {
+    this.#emailVerified = emailVerified;
   }
 
   async adds() {

@@ -11,6 +11,7 @@ module.exports = {
         name,
         email,
         password,
+        emailVerified:false
       });
       await user.adds();
       const address = {route:"/user/verify_email/",id:user.id}

@@ -1,6 +1,6 @@
 const sqlite3 = require('sqlite3').verbose();
 
-const db = new sqlite3.Database('dbFilePath');
+const db = new sqlite3.Database(`${process.env.DATABASE}/db.sqlite`);
 
 const POSTS_SCHEMA = `
   CREATE TABLE IF NOT EXISTS posts (
@@ -15,7 +15,8 @@ const USERS_SCHEMA = `
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     name VARCHAR(40) NOT NULL,
     email VARCHAR(255) NOT NULL UNIQUE,
-    password VARCHAR(255) NOT NULL
+    password VARCHAR(255) NOT NULL,
+    emailVerified INTEGER
   )
   `;
 
