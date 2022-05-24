@@ -3,7 +3,7 @@ const Email = require('./Email');
 class EmailVerification extends Email {
   constructor(user, address) {
     super();
-    this.address = super.generateAddress(address.route,address.id)
+    this.address = super.generateAddress(address.route, address.id);
     this.from = '"Blog"<roreplay@blog.com.br>';
     this.to = user.email;
     this.subject = 'Verificação de email';

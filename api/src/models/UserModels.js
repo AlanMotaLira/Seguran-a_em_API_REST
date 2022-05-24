@@ -1,13 +1,17 @@
-const bcrypt = require("bcrypt");
-const { InvalidArgumentError } = require("../err");
-const userDao = require("../dao/userDao");
-const commonValidations = require("../validation/commonValidations");
+const bcrypt = require('bcrypt');
+const { InvalidArgumentError } = require('../err');
+const userDao = require('../dao/userDao');
+const commonValidations = require('../validation/commonValidations');
 
 class User {
   #name;
+
   #email;
+
   #passwordTemp;
+
   #password;
+
   #emailVerified;
 
   constructor(user) {
@@ -22,6 +26,7 @@ class User {
   get name() {
     return this.#name;
   }
+
   set name(name) {
     this.validate(name, false, false);
     this.#name = name;
@@ -30,6 +35,7 @@ class User {
   get email() {
     return this.#email;
   }
+
   set email(email) {
     this.validate(false, email, false);
     this.#email = email;
@@ -38,6 +44,7 @@ class User {
   get password() {
     return this.#password;
   }
+
   set password(password) {
     this.validate(false, false, password);
     this.#password = password;
@@ -46,26 +53,24 @@ class User {
   get emailVerified() {
     return this.#emailVerified;
   }
+
   set emailVerified(emailVerified) {
     this.#emailVerified = emailVerified;
   }
 
   async adds() {
     if (await User.searchByEmail(this.email)) {
-      throw new InvalidArgumentError("O usuário já existe!");
+      throw new InvalidArgumentError('O usuário já existe!');
     }
 
     this.validate(this.name, this.email, this.#passwordTemp);
     await this.passwordHash(this.#passwordTemp);
 
-    await userDao.adds({
-      name: this.name,
-      email: this.email,
-      password: this.password,
-    });
+    await userDao.adds(this);
     const { id } = await User.searchByEmail(this.email);
     this.id = id;
   }
+
   async passwordHash(password) {
     await User.generatePasswordHash(password).then((item) => {
       this.password = item;
@@ -78,15 +83,15 @@ class User {
 
   validate(name, email, password) {
     if (name) {
-      commonValidations.fieldStringNotNull(name, "name");
+      commonValidations.fieldStringNotNull(name, 'name');
     }
     if (email) {
-      commonValidations.fieldStringNotNull(email, "email");
+      commonValidations.fieldStringNotNull(email, 'email');
     }
     if (password) {
-      commonValidations.fieldStringNotNull(password, "password");
-      commonValidations.fieldSizeMinimum(password, "password", 8);
-      commonValidations.fieldMaximumSize(password, "password", 64);
+      commonValidations.fieldStringNotNull(password, 'password');
+      commonValidations.fieldSizeMinimum(password, 'password', 8);
+      commonValidations.fieldMaximumSize(password, 'password', 64);
     }
   }
 
