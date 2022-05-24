@@ -20,6 +20,6 @@ module.exports = (app) => {
       userControllers.logout,
     );
     app
-    .route('/user/verify_email/:id')
+    .route('/user/verify_email/:token')
     .get(middlewaresAuthentication.email,userControllers.verifyEmail);
 };
