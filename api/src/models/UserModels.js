@@ -54,8 +54,9 @@ class User {
     return this.#emailVerified;
   }
 
-  set emailVerified(emailVerified) {
-    this.#emailVerified = emailVerified;
+  set emailVerified(rota) {
+    console.log(rota)
+    this.#emailVerified = true;
   }
 
   async adds() {
@@ -79,6 +80,11 @@ class User {
 
   async remove() {
     return userDao.remove(this);
+  }
+
+  async verifyEmail(rota){
+    this.emailVerified = rota
+    await userDao.emailValidity(this,this.emailVerified)
   }
 
   validate(name, email, password) {

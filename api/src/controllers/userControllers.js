@@ -30,6 +30,15 @@ module.exports = {
     }
   },
 
+  async verifyEmail(req,res){
+    try {
+      const route = req.session
+
+    } catch (err) {
+      res.status(500).json({ erro: err.message });
+    }
+  },
+
   async login(req, res) {
     try {
       const accesstoken = access.create(req.user);
