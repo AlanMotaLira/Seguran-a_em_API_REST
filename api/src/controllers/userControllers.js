@@ -1,6 +1,6 @@
 const { UserModels } = require("../models");
 const { InvalidArgumentError, InternalServerError } = require("../err");
-const { access, refresh } = require("../token");
+const { access, refresh,checkEmail } = require("../token");
 const { EmailVerification } = require("../email");
 
 module.exports = {
@@ -14,8 +14,8 @@ module.exports = {
         emailVerified: false,
       });
       await user.adds();
-      const address = { route: "/user/verify_email/", id: user.id };
-      const emailVerification = new EmailVerification(user, address);
+      const tokenEmail = checkEmail.create(user)
+      const emailVerification = new EmailVerification(user, tokenEmail);
       emailVerification.sendEmail().catch(console.log());
 
       res.status(201).json({ message: "Usuario criado" });

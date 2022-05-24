@@ -17,6 +17,9 @@ function createTokenJWT(user, [time, measurement]) {
 }
 
 async function verifyTokenJwt(token, blocklist) {
+  if(!blocklist){
+    return jwt.verify(token, process.env.SECRET_KEY)
+  }
   const verifToken = await blocklist.InvalidToken(token);
   if (verifToken) {
     throw new jwt.JsonWebTokenError('token inválido por logout');
@@ -78,4 +81,13 @@ module.exports = {
       return invalidOpaqueToken(token, this.list);
     },
   },
+  checkEmail:{
+    expiration:[1,'h'],
+    create(user){
+      return createTokenJWT(user,this.expiration)
+    },
+    verify(token){
+      return verifyTokenJwt(token)
+    }
+  }
 };

@@ -11,10 +11,10 @@ class Email {
     console.log(nodemailer.getTestMessageUrl(info));
   }
 
-  generateAddress(rota, id) {
+  generateAddress(token) {
     const URL = process.env.BASE_URL;
     console.log(URL);
-    return `${URL}${rota}${id}`;
+    return `${URL}${this.route}${token}`;
   }
 }
 module.exports = Email;

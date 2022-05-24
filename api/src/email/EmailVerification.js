@@ -1,9 +1,10 @@
 const Email = require('./Email');
 
 class EmailVerification extends Email {
-  constructor(user, address) {
+  constructor(user,token) {
     super();
-    this.address = super.generateAddress(address.route, address.id);
+    this.route = "/user/verify_email/"
+    this.address = super.generateAddress(token);
     this.from = '"Blog"<roreplay@blog.com.br>';
     this.to = user.email;
     this.subject = 'Verificação de email';
