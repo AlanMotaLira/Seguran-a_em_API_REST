@@ -1,7 +1,7 @@
-const bcrypt = require('bcrypt');
-const { InvalidArgumentError } = require('../err');
-const userDao = require('../dao/userDao');
-const commonValidations = require('../validation/commonValidations');
+const bcrypt = require("bcrypt");
+const { InvalidArgumentError } = require("../err");
+const userDao = require("../dao/userDao");
+const commonValidations = require("../validation/commonValidations");
 
 class User {
   #name;
@@ -49,19 +49,20 @@ class User {
 
   async adds() {
     if (await User.searchByEmail(this.email)) {
-      throw new InvalidArgumentError('O usuário já existe!');
+      throw new InvalidArgumentError("O usuário já existe!");
     }
 
     this.validate(this.name, this.email, this.#passwordTemp);
     await this.passwordHash(this.#passwordTemp);
 
-    return userDao.adds({
+    await userDao.adds({
       name: this.name,
       email: this.email,
       password: this.password,
     });
+    const { id } = await User.searchByEmail(this.email);
+    this.id = id;
   }
-
   async passwordHash(password) {
     await User.generatePasswordHash(password).then((item) => {
       this.password = item;
@@ -74,15 +75,15 @@ class User {
 
   validate(name, email, password) {
     if (name) {
-      commonValidations.fieldStringNotNull(name, 'name');
+      commonValidations.fieldStringNotNull(name, "name");
     }
     if (email) {
-      commonValidations.fieldStringNotNull(email, 'email');
+      commonValidations.fieldStringNotNull(email, "email");
     }
     if (password) {
-      commonValidations.fieldStringNotNull(password, 'password');
-      commonValidations.fieldSizeMinimum(password, 'password', 8);
-      commonValidations.fieldMaximumSize(password, 'password', 64);
+      commonValidations.fieldStringNotNull(password, "password");
+      commonValidations.fieldSizeMinimum(password, "password", 8);
+      commonValidations.fieldMaximumSize(password, "password", 64);
     }
   }
 
