@@ -1,7 +1,7 @@
-const { UserModels } = require("../models");
-const { InvalidArgumentError, InternalServerError } = require("../err");
-const { access, refresh } = require("../token");
-const { EmailVerification } = require("../email");
+const { UserModels } = require('../models');
+const { InvalidArgumentError, InternalServerError } = require('../err');
+const { access, refresh, checkEmail } = require('../token');
+const { EmailVerification } = require('../email');
 
 module.exports = {
   async adds(req, res) {
@@ -11,13 +11,14 @@ module.exports = {
         name,
         email,
         password,
+        emailVerified: false,
       });
       await user.adds();
-      const address = {route:"/user/verify_email/",id:user.id}
-      const emailVerification = new EmailVerification(user, address);
+      const tokenEmail = checkEmail.create(user);
+      const emailVerification = new EmailVerification(user, tokenEmail);
       emailVerification.sendEmail().catch(console.log());
 
-      res.status(201).json({ message: "Usuario criado" });
+      res.status(201).json({ message: 'Usuario criado' });
     } catch (erro) {
       if (erro instanceof InvalidArgumentError) {
         res.status(422).json({ erro: erro.message });
@@ -29,12 +30,22 @@ module.exports = {
     }
   },
 
+  async verifyEmail(req, res) {
+    try {
+      const { user } = req;
+      await user.emailValidity();
+      res.status(200).json();
+    } catch (err) {
+      res.status(500).json({ erro: err.message });
+    }
+  },
+
   async login(req, res) {
     try {
       const accesstoken = access.create(req.user);
       const refreshToken = await refresh.create(req.user);
       console.log(refreshToken);
-      res.set("authorization", accesstoken).status(200);
+      res.set('authorization', accesstoken).status(200);
       res.json(refreshToken);
     } catch (err) {
       res.status(500).json({ erro: err.message });

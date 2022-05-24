@@ -19,4 +19,7 @@ module.exports = (app) => {
       [middlewaresAuthentication.refresh, middlewaresAuthentication.bearer],
       userControllers.logout,
     );
+  app
+    .route('/user/verify_email/:token')
+    .get(middlewaresAuthentication.email, userControllers.verifyEmail);
 };

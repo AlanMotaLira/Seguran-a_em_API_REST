@@ -9,14 +9,26 @@ module.exports = {
   async adds(user) {
     try {
       await dbRun(
-        `INSERT INTO users (name,email,password) 
-        VALUES (?, ?, ?)`,
-        [user.name, user.email, user.password],
+        `INSERT INTO users (name,email,password,emailVerified) 
+        VALUES (?, ?, ?, ?)`,
+        [user.name, user.email, user.password, user.emailVerified],
       );
     } catch (err) {
       throw new InternalServerError('Erro ao adicionar o usuário!');
     }
   },
+
+  async emailValidity(user, emailVerified) {
+    try {
+      await dbRun('UPDATE users SET emailVerified = ? WHERE id = ?', [
+        emailVerified,
+        user.id,
+      ]);
+    } catch (err) {
+      throw new InternalServerError('Erro ao validar o email!');
+    }
+  },
+
   async searchByID(id) {
     try {
       return await dbGet('SELECT * FROM users WHERE id = ? ', [id]);
@@ -27,10 +39,7 @@ module.exports = {
 
   async searchByEmail(email) {
     try {
-      return await dbGet(
-        'SELECT * FROM users WHERE email = ?',
-        [email],
-      );
+      return await dbGet('SELECT * FROM users WHERE email = ?', [email]);
     } catch (err) {
       throw new InternalServerError('Não foi possível encontrar o usuário!');
     }

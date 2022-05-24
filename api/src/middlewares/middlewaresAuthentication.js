@@ -1,6 +1,6 @@
 const passport = require('passport');
 const { UserModels } = require('../models');
-const { refresh } = require('../token');
+const { refresh, checkEmail } = require('../token');
 
 module.exports = {
   local(req, res, next) {
@@ -24,7 +24,9 @@ module.exports = {
         return res.status(401).json({ erro: err.message });
       }
       if (err && err.name === 'TokenExpiredError') {
-        return res.status(401).json({ err: err.message, expirado: err.expiredAt });
+        return res
+          .status(401)
+          .json({ err: err.message, expirado: err.expiredAt });
       }
       if (err) {
         return res.status(500).json({ erro: err.message });
@@ -46,6 +48,22 @@ module.exports = {
       return next();
     } catch (err) {
       if (err.name === 'InvalidArgumentError') {
+        return res.status(401).json(err.message);
+      }
+      return res.status(500).json(err.message);
+    }
+  },
+  async email(req, res, next) {
+    try {
+      const { token } = req.params;
+      const payload = await checkEmail.verify(token);
+      req.user = await UserModels.searchByID(payload.id);
+      return next();
+    } catch (err) {
+      if (
+        err.name === 'InvalidArgumentError'
+        || err.name === 'JsonWebTokenError'
+      ) {
         return res.status(401).json(err.message);
       }
       return res.status(500).json(err.message);

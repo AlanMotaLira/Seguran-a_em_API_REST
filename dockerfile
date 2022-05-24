@@ -3,6 +3,7 @@ LABEL maintainer "Alan Lira <alan.lira08@gmail.com>"
 WORKDIR /home/node/app
 ARG PORT=3000
 ENV PORT=$PORT
+ENV DATABASE=/home/node/app/db
 EXPOSE $PORT
 COPY package.json .eslintrc.json ./
 RUN npm install --no-optional && npm cache clean --force
