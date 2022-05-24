@@ -51,4 +51,16 @@ module.exports = {
       return res.status(500).json(err.message);
     }
   },
+  async email(req, res, next) {
+    try {
+      const {id} = req.params;
+      req.user = await UserModels.searchByID(id);
+      return next();
+    } catch (err) {
+      if (err.name === 'InvalidArgumentError') {
+        return res.status(401).json(err.message);
+      }
+      return res.status(500).json(err.message);
+    }
+  },
 };
