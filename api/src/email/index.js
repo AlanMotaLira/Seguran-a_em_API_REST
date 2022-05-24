@@ -1,5 +1,5 @@
-const EmailVerification = require('./EmailVerification')
+const EmailVerification = require('./EmailVerification');
 
-module.exports={
-    EmailVerification
-}
+module.exports = {
+  EmailVerification,
+};
