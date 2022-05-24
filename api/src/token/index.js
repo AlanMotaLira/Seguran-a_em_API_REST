@@ -1,9 +1,9 @@
-const jwt = require("jsonwebtoken");
-const crypto = require("crypto");
-const moment = require("moment");
-const allowlistRefreshToken = require("../../redis/allowlistRefreshToken");
-const manipulateBlocklist = require("../../redis/manipulateBlocklist");
-const { InvalidArgumentError } = require("../err");
+const jwt = require('jsonwebtoken');
+const crypto = require('crypto');
+const moment = require('moment');
+const allowlistRefreshToken = require('../../redis/allowlistRefreshToken');
+const manipulateBlocklist = require('../../redis/manipulateBlocklist');
+const { InvalidArgumentError } = require('../err');
 
 function createTokenJWT(user, [time, measurement]) {
   const payload = {
@@ -20,7 +20,7 @@ async function verifyTokenJwt(token, blocklist) {
   if (blocklist) {
     const verifToken = await blocklist.InvalidToken(token);
     if (verifToken) {
-      throw new jwt.JsonWebTokenError("token inválido por logout");
+      throw new jwt.JsonWebTokenError('token inválido por logout');
     }
   }
 
@@ -32,7 +32,7 @@ async function invalidTokenJwt(token, blocklist) {
 }
 
 async function createOpaqueToken(user, [time, measurement], allowlist) {
-  const opaqueToken = crypto.randomBytes(24).toString("hex");
+  const opaqueToken = crypto.randomBytes(24).toString('hex');
   const dataEnd = moment().add(time, measurement).unix();
   await allowlist.adds(opaqueToken, user.id, dataEnd);
   return opaqueToken;
@@ -55,7 +55,7 @@ async function invalidOpaqueToken(token, allowlist) {
 
 module.exports = {
   access: {
-    expiration: [15, "m"],
+    expiration: [15, 'm'],
     list: manipulateBlocklist,
     create(user) {
       return createTokenJWT(user, this.expiration);
@@ -68,9 +68,9 @@ module.exports = {
     },
   },
   refresh: {
-    expiration: [3, "d"],
+    expiration: [3, 'd'],
     list: allowlistRefreshToken,
-    name: "Refresh Token",
+    name: 'Refresh Token',
     create(user) {
       return createOpaqueToken(user, this.expiration, this.list);
     },
@@ -82,7 +82,7 @@ module.exports = {
     },
   },
   checkEmail: {
-    expiration: [1, "h"],
+    expiration: [1, 'h'],
     create(user) {
       return createTokenJWT(user, this.expiration);
     },

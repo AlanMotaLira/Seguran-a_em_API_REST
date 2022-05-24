@@ -81,9 +81,9 @@ class User {
     return userDao.remove(this);
   }
 
-  async emailValidity(){
-    this.emailVerified = true
-    await userDao.emailValidity(this,this.emailVerified)
+  async emailValidity() {
+    this.emailVerified = true;
+    await userDao.emailValidity(this, this.emailVerified);
   }
 
   validate(name, email, password) {
