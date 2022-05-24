@@ -17,7 +17,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJmdWxhbm9AZnVsYW5vLmNvbSIsImlhdCI6MTY1MzI1MDc2MSwiZXhwIjoxNjUzMjUxNjYxfQ.hfU1A4z4zBNvg-CU9agJn3aKfu43-pmZbZmW-cBX6o8",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiZW1haWwiOiJmdWxhbm9AZnVsYW5vLmNvbSIsImlhdCI6MTY1MzQxNzIwOSwiZXhwIjoxNjUzNDE4MTA5fQ.yrp9NrW5dfocrX_R0pkOr0Gv8UfH2oXg1J9t60J_GZM",
 									"type": "string"
 								}
 							]
@@ -77,6 +77,44 @@
 			"name": "User",
 			"item": [
 				{
+					"name": "Listar usuário",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:3000/user",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"user"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "validação de email do usuário",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:3000/user/verify_email/eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTUsImVtYWlsIjoid2FsdGVyZGRkZGRAZnVsYW5vLmNvbSIsImlhdCI6MTY1MzQxNzE0OSwiZXhwIjoxNjUzNDIwNzQ5fQ.BM1ignvCQy_gylwFKgs4GN0_Cfwuw4tM6s1vvvNHJ2g",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"user",
+								"verify_email",
+								"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTUsImVtYWlsIjoid2FsdGVyZGRkZGRAZnVsYW5vLmNvbSIsImlhdCI6MTY1MzQxNzE0OSwiZXhwIjoxNjUzNDIwNzQ5fQ.BM1ignvCQy_gylwFKgs4GN0_Cfwuw4tM6s1vvvNHJ2g"
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "Criar usuário",
 					"request": {
 						"method": "POST",
@@ -104,42 +142,18 @@
 					"response": []
 				},
 				{
-					"name": "Listar usuário",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "localhost:3000/user",
-							"host": [
-								"localhost"
-							],
-							"port": "3000",
-							"path": [
-								"user"
-							]
-						}
-					},
-					"response": []
-				},
-				{
 					"name": "logar usuário com retorno do token",
 					"request": {
 						"method": "POST",
 						"header": [],
 						"body": {
-							"mode": "urlencoded",
-							"urlencoded": [
-								{
-									"key": "email",
-									"value": "fulano@fulano.com",
-									"type": "text"
-								},
-								{
-									"key": "password",
-									"value": "12345678",
-									"type": "text"
+							"mode": "raw",
+							"raw": "{\n  \"email\": \"fulano@fulano.com\",\n  \"password\": \"12345678\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
 								}
-							]
+							}
 						},
 						"url": {
 							"raw": "localhost:3000/user/login",
@@ -163,13 +177,22 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJmdWxhbm9AZnVsYW5vLmNvbSIsImlhdCI6MTY1MzI1MDc2MSwiZXhwIjoxNjUzMjUxNjYxfQ.hfU1A4z4zBNvg-CU9agJn3aKfu43-pmZbZmW-cBX6o8",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiZW1haWwiOiJmdWxhbm9AZnVsYW5vLmNvbSIsImlhdCI6MTY1MzQxNzIwOSwiZXhwIjoxNjUzNDE4MTA5fQ.yrp9NrW5dfocrX_R0pkOr0Gv8UfH2oXg1J9t60J_GZM",
 									"type": "string"
 								}
 							]
 						},
-						"method": "GET",
+						"method": "POST",
 						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"refreshToken\":\"3524876d4d1c8eea73e911512b1e13da28a64735d667e651\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
 						"url": {
 							"raw": "localhost:3000/user/logout",
 							"host": [
@@ -179,6 +202,34 @@
 							"path": [
 								"user",
 								"logout"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "realizar o refresh do token",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"refreshToken\":\"a75ea544fa11d465a558d0748424693f1412112d78d4a792\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:3000/user/refresh",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"user",
+								"refresh"
 							]
 						}
 					},

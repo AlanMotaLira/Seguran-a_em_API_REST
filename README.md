@@ -3,7 +3,7 @@
 ![sqlite3-version](https://img.shields.io/badge/sqlite3-%5E5.0.8-red)
 ![redis-version](https://img.shields.io/badge/redis-7.0.0--alpine-red)
 
-API simulando o acesso de login de um blog, com a criação de usuário, realização do login e logout, criação de post somente com o usuário com login valido.
+API simulando o acesso de login de um blog, com a criação de usuário, validação do e-mail cadastrado, enviando um e-mail automatico para validação, realização do login e logout, refresh dos tokens, criação de post somente com o usuário com login valido.
 
 ## Tecnologias Utilizadas
 - [**bcrypt**](https://www.npmjs.com/package/bcrypt)
@@ -12,6 +12,8 @@ API simulando o acesso de login de um blog, com a criação de usuário, realiza
 - [**dotenv**](https://dotenv.org/vault?r=1)
 - [**eslint**](https://eslint.org/)
 - [**express**](http://expressjs.com/en/resources/middleware/body-parser.html)
+- [**moment**](https://momentjs.com/)
+- [**nodemailer**](https://nodemailer.com/about/)
 - [**jest**](https://jestjs.io/pt-BR/)
 - [**jsonwebtoken**](https://datatracker.ietf.org/doc/html/rfc7519)
 - [**passport**](https://www.passportjs.org/)
@@ -35,8 +37,10 @@ A API esta organizada e estruturada da seguinte forma:
     |   ├── database.js
     |   ├── server.js
     |   ├── redis
+    |   |  ├── allowlistRefreshToken.js
     |   |  ├── blocklistAccessToken.js
     |   |  ├── manipulateBlocklist.js
+    |   |  ├── manipulateList.js
     |   ├── src
     |   |  ├── controllers
     |   |  |  ├── index.js
@@ -47,6 +51,10 @@ A API esta organizada e estruturada da seguinte forma:
     |   |  |  |  ├── userDao.js
     |   |  |  ├── postsDao.js
     |   |  |  ├── userDao.js
+    |   |  ├── email
+    |   |  |  ├── index.js
+    |   |  |  ├── Email.js
+    |   |  |  ├── EmailVerification.js
     |   |  ├── err
     |   |  |  ├── index.js
     |   |  |  ├── InternalServerError.js
